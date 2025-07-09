@@ -13,6 +13,15 @@ const NoteList = ({ notes, setNotes }) => {
     }
   };
 
+  const deleteNote = async (id) => {
+    try {
+      await axios.delete(`${baseURL}/api/notes/${id}`);
+      fetchNotes();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="space-y-4">
       {notes.map((note) => (
@@ -23,7 +32,12 @@ const NoteList = ({ notes, setNotes }) => {
               Last updated: {new Date(note.updatedAt).toLocaleString()}
             </p>
           </Link>
-          <button className="mt-2 text-sm text-red-500 hover:text-red-700">Delete</button>
+          <button
+            onClick={() => deleteNote(note._id)}
+            className="mt-2 text-sm text-red-500 hover:text-red-700"
+          >
+            Delete
+          </button>
         </div>
       ))}
     </div>
